@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AuthModel {
-    private String username;
-    private String password;
+public class RevenueModel {
+    private String date;
+    private Double sum;
 }

@@ -1,20 +1,19 @@
 package com.java.api.models;
 
-import javax.management.relation.Role;
-
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class ClientModel {
     private int id;
     private String username;
-    private String password;
     private String firstName;
     private String lastName;
-    private String country;
-    private Role role;
+    private String email;
+    private String phone;
 }

@@ -4,8 +4,6 @@ import java.util.Date;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,41 +21,45 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class AuthService implements IAuthService {
-    private final IClientRepository clientRepository;
-    private final JwtService jwtService;
-    private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManager authenticationManager;
+        private final IClientRepository clientRepository;
+        private final JwtService jwtService;
+        private final PasswordEncoder passwordEncoder;
+        private final AuthenticationManager authenticationManager;
 
-    public ResponseModel<TokenModel> login(AuthModel credentials) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(credentials.getUsername(), credentials.getPassword()));
-        Client client = clientRepository.findByUsername(credentials.getUsername()).orElseThrow();
+        public ResponseModel<TokenModel> login(AuthModel credentials) {
+                authenticationManager.authenticate(
+                                new UsernamePasswordAuthenticationToken(credentials.getUsername(),
+                                                credentials.getPassword()));
+                Client client = clientRepository.findByUsername(credentials.getUsername()).orElseThrow();
 
-        return new ResponseModel<TokenModel>(
-            new Date(),
-            200,
-            "Succesful login",
-            new TokenModel(client.getUsername(), client.getRole(), jwtService.getToken(client))
-        );
-    }
+                return new ResponseModel<TokenModel>(
+                                new Date(),
+                                200,
+                                "Succesfull login",
+                                new TokenModel(client.getId(), client.getUsername(), client.getRole(),
+                                                jwtService.getToken(client)));
+        }
 
-    @Override
-    public ResponseModel<TokenModel> register(AddClientModel clientModel) {
-        Client client = Client.builder()
-                .username(clientModel.getUsername())
-                .password(passwordEncoder.encode(clientModel.getPassword()))
-                .firstName(clientModel.getFirstName())
-                .lastName(clientModel.getLastName())
-                .country(clientModel.getCountry())
-                .role(clientModel.getRole().toLowerCase().equals("admin") ? "admin" : "user")
-                .build();
+        @Override
+        public ResponseModel<TokenModel> register(AddClientModel clientModel) {
+                Client client = Client.builder()
+                                .username(clientModel.getUsername())
+                                .password(passwordEncoder.encode(clientModel.getPassword()))
+                                .firstName(clientModel.getFirstName())
+                                .lastName(clientModel.getLastName())
+                                .email(clientModel.getEmail())
+                                .phone(clientModel.getPhone())
+                                .role(clientModel.getRole().toLowerCase().equals("admin") ? "admin" : "user")
+                                .build();
 
-        clientRepository.save(client);
+                clientRepository.save(client);
 
-        return new ResponseModel<TokenModel>(
-                new Date(),
-                204,
-                "Succesful register",
-                new TokenModel(client.getUsername(), client.getRole(), jwtService.getToken(client)));
-    }
+                return new ResponseModel<TokenModel>(
+                                new Date(),
+                                204,
+                                "Succesfull register",
+                                new TokenModel(client.getId(), client.getUsername(), client.getRole(),
+                                                jwtService.getToken(client)));
+        }
 
 }

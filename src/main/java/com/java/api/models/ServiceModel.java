@@ -9,7 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AuthModel {
-    private String username;
-    private String password;
+public class ServiceModel {
+    private int id;
+    private String title;
+    private String description;
+    private String imageUrl;
+    private Double price;
+    private boolean isDeleted;
 }

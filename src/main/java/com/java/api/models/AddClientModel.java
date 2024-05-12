@@ -16,6 +16,7 @@ public class AddClientModel {
     private String password;
     private String firstName;
     private String lastName;
-    private String country;
+    private String email;
+    private String phone;
     private String role;
 }

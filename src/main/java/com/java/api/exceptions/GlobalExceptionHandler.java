@@ -25,6 +25,30 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ResponseModel<String>> notFoundExceptionHandler(Exception ex, WebRequest webRequest){
+        ResponseModel<String> response = new ResponseModel<String>(
+            new Date(),
+            404,
+            "Not found",
+            ex.getMessage()
+        );
+
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(DeletedException.class)
+    public ResponseEntity<ResponseModel<String>> deletedExceptionHandler(Exception ex, WebRequest webRequest){
+        ResponseModel<String> response = new ResponseModel<String>(
+            new Date(),
+            404,
+            "Element deleted",
+            ex.getMessage()
+        );
+
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
     
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ResponseModel<String>> exceptionHandler(Exception ex, WebRequest webRequest){
