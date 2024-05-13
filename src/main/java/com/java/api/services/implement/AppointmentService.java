@@ -137,7 +137,7 @@ public class AppointmentService implements IAppointmentService {
                 return new ResponseModel<AppointmentModel>(
                                 new Date(),
                                 204,
-                                "Appointment created succesfully",
+                                "Appointment Canceled",
                                 savedAppointment);
         }
 

@@ -15,16 +15,6 @@ public class ApiApplication {
 		return new ModelMapper();
 	}
 
-	@Bean
-	public WebMvcConfigurer configurer(){
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry reg){
-				reg.addMapping("/**").allowedOrigins("*");
-			}
-		};
-	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(ApiApplication.class, args);
 	}

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.java.api.entities.RevenueReport;
 import com.java.api.exceptions.GlobalExceptionHandler;
 import com.java.api.models.AddAppointmentModel;
 import com.java.api.models.AppointmentModel;
@@ -27,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/appointment")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class AppointmentController extends GlobalExceptionHandler {
     private final AppointmentService appointmentService;
 
