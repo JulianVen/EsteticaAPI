@@ -1,5 +1,6 @@
 package com.java.api.controllers;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import com.java.api.models.ResponseModel;
 import com.java.api.models.ServiceModel;
 import com.java.api.services.implement.ServiceService;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -29,6 +31,11 @@ public class ServiceController extends GlobalExceptionHandler {
     @GetMapping
     public ResponseEntity<ResponseModel<List<ServiceModel>>> getAll() {
         return ResponseEntity.ok(service.getAll());
+    }
+
+    @GetMapping("/report")
+    public void exportToExcel(HttpServletResponse response) throws IOException {
+        service.exportToExcel(response);
     }
 
     @PostMapping

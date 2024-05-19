@@ -1,18 +1,24 @@
 package com.java.api.services.implement;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.java.api.entities.ClientReport;
+import com.java.api.entities.RevenueReport;
 import com.java.api.entities.ServiceEntity;
 import com.java.api.exceptions.NotFoundException;
 import com.java.api.models.ResponseModel;
 import com.java.api.models.ServiceModel;
+import com.java.api.repository.IRevenueReportRepository;
 import com.java.api.repository.IServiceRepository;
 import com.java.api.services.interfaces.IServices;
+import com.java.api.utils.RevenueExport;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -20,6 +26,8 @@ import lombok.RequiredArgsConstructor;
 public class ServiceService implements IServices {
         private final ModelMapper modelMapper;
         private final IServiceRepository serviceRepository;
+        private final IRevenueReportRepository revenueReportRepository;
+        private final RevenueExport revenueExport;
 
         @Override
         public ResponseModel<List<ServiceModel>> getAll() {
@@ -33,7 +41,6 @@ public class ServiceService implements IServices {
                                 "Succesfull list",
                                 servicesModel);
         }
-
 
         @Override
         public ResponseModel<ServiceModel> addService(ServiceModel serviceModel) {
@@ -75,5 +82,10 @@ public class ServiceService implements IServices {
                                 modelMapper.map(service, ServiceModel.class));
         }
 
+        @Override
+        public void exportToExcel(HttpServletResponse reponse) throws IOException {
+                List<RevenueReport> revenues = revenueReportRepository.findAll();
+                revenueExport.exportToExcel(reponse, revenues);
+        }
 
 }

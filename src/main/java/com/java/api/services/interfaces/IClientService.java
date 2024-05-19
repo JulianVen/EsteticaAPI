@@ -1,10 +1,9 @@
 package com.java.api.services.interfaces;
 
-import java.util.List;
+import java.io.IOException;
 
-import com.java.api.entities.ClientReport;
-import com.java.api.models.ResponseModel;
+import jakarta.servlet.http.HttpServletResponse;
 
 public interface IClientService {
-    public ResponseModel<List<ClientReport>> getReport();
+    public void exportToExcel(HttpServletResponse response) throws IOException;
 }

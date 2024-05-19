@@ -1,30 +1,28 @@
 package com.java.api.controllers;
 
-import java.util.List;
+import java.io.IOException;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.java.api.entities.ClientReport;
 import com.java.api.exceptions.GlobalExceptionHandler;
-import com.java.api.models.ResponseModel;
 import com.java.api.services.implement.ClientService;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/client")
+@RequiredArgsConstructor
 @CrossOrigin("*")
 public class ClientController extends GlobalExceptionHandler {
     private final ClientService clientService;
 
     @GetMapping("/report")
-    public ResponseEntity<ResponseModel<List<ClientReport>>> getReport() {
-        return ResponseEntity.ok(clientService.getReport());
+    public void exportToExcel(HttpServletResponse response) throws IOException {
+        clientService.exportToExcel(response);
     }
 
 }

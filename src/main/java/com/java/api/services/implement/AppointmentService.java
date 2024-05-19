@@ -1,6 +1,5 @@
 package com.java.api.services.implement;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -9,17 +8,14 @@ import org.springframework.stereotype.Service;
 
 import com.java.api.entities.Appointment;
 import com.java.api.entities.Client;
-import com.java.api.entities.RevenueReport;
 import com.java.api.entities.ServiceEntity;
 import com.java.api.exceptions.DeletedException;
 import com.java.api.exceptions.NotFoundException;
 import com.java.api.models.AddAppointmentModel;
 import com.java.api.models.AppointmentModel;
 import com.java.api.models.ResponseModel;
-import com.java.api.models.RevenueModel;
 import com.java.api.repository.IAppointmentRepository;
 import com.java.api.repository.IClientRepository;
-import com.java.api.repository.IRevenueReportRepository;
 import com.java.api.repository.IServiceRepository;
 import com.java.api.services.interfaces.IAppointmentService;
 
@@ -31,7 +27,6 @@ public class AppointmentService implements IAppointmentService {
         private final IServiceRepository serviceRepository;
         private final IClientRepository clientRepository;
         private final IAppointmentRepository appointmentRepository;
-        private final IRevenueReportRepository revenueReportRepository;
         private final ModelMapper modelMapper;
 
         @Override
@@ -64,26 +59,6 @@ public class AppointmentService implements IAppointmentService {
                                 "Succesfull list",
                                 appointmentsModel);
 
-        }
-
-        @Override
-        public ResponseModel<List<RevenueModel>> getRevenueReport(Date start, Date end) {
-                List<RevenueReport> revenueReport = revenueReportRepository.findAllByDateBetween(start, end);
-                List<RevenueModel> revenueModelReport = revenueReport.stream()
-                                .map(revenue -> modelMapper.map(revenue, RevenueModel.class)).toList();
-
-                // Remove time
-                for (RevenueModel revenueModel : revenueModelReport) {
-                        // Date without time
-                        String date = revenueModel.getDate().split(" ")[0];
-                        revenueModel.setDate(date);
-                }
-
-                return new ResponseModel<List<RevenueModel>>(
-                                new Date(),
-                                200,
-                                "Succesfull report",
-                                revenueModelReport);
         }
 
         @Override
